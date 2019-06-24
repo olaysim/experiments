@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Based on Spring boot's default logback logging configuration
+-->
+
+<configuration>
+    <!-- Include Spring boot's defaults -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <!-- CONSOLE APPENDERS -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!--<filter class="dk.syslab.proxy.util.MarkerFilter">-->
+            <!--<marker>EXP</marker>-->
+            <!--<OnMismatch>DENY</OnMismatch>-->
+        <!--</filter>-->
+    </appender>
+
+    <!--<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<target>System.err</target>-->
+        <!--<encoder>-->
+            <!--<pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+            <!--<charset>utf8</charset>-->
+        <!--</encoder>-->
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>ERROR</level>-->
+        <!--</filter>-->
+    <!--</appender>-->
+
+    <!-- FILE APPENDER -->
+    <property name="LOG_FILE" value="proxy.log"/>
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-0}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="STDERR" />-->
+        <appender-ref ref="FILE" />
+     </root>
+
+</configuration>
